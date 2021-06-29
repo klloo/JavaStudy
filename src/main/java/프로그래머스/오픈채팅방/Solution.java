@@ -1,8 +1,9 @@
-package com.huiy;
+package main.java.프로그래머스.오픈채팅방;
 
 import java.util.*;
 
-class OpenChatting {
+//[프로그래머스] 오픈채팅방
+public class Solution {
     public String[] solution(String[] record) {
         String[] answer = {};
         ArrayList<String> result = new ArrayList<>();
