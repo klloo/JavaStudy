@@ -8,14 +8,14 @@ import static org.junit.Assert.*;
 public class SolutionTest {
     @Test
     public void solutionTest() {
-        Solution oc = new Solution();
+        Solution solution = new Solution();
         String[][] record = {{"100","ryan","music","2"},
                 {"200","apeach","math","2"},
                 {"300","tube","computer","3"},
                 {"400","con","computer","4"},
                 {"500","muzi","music","3"},
                 {"600","apeach","music","2"}};
-        int ans = oc.solution(record);
-        System.out.println(ans);
+        int ans = solution.solution(record);
+        assertEquals(ans,2);
     }
 }
