@@ -93,7 +93,6 @@ public class Solution {
         root.preorder(preorderList);
         root.postorder(postorderList);
 
-        answer = new int[2][len];
         for (i=0;i<len;i++) {
             answer[0][i] = preorderList.get(i);
             answer[1][i] = postorderList.get(i);
