@@ -63,6 +63,7 @@ public class Solution {
                 break;
             }
         }
+        //만약 반복문을 끝까지 돈거면 break에 안걸린거니까 음식을 다 먹었단 의미
         answer = (i < len) ? foodList.get(ansIdx).getNum() : -1;
         return answer;
     }
