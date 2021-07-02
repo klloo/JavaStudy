@@ -10,8 +10,8 @@ public class SolutionTest {
     @Test
     public void solutionTest() {
         Solution solution = new Solution();
-        int[] food_times = {3,1,2,4};
-        long k = 5;
+        int[] food_times = {3,1,5,4};
+        long k = 11;
         int ans = solution.solution(food_times,k);
         System.out.println(ans);
     }
