@@ -77,7 +77,6 @@ public class Solution {
             if(urlMatcher.find()) {
                 url = urlMatcher.group();
                 url = url.substring(url.indexOf("https://"),url.indexOf("\"/>"));
-                System.out.println(url);
             }
 
             Matcher wordMatcher = wordPattern.matcher(page);
