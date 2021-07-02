@@ -42,6 +42,10 @@ class WebPage {
         matchingPoint = basicPoint + linkPoint;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public ArrayList<String> getLinkedList() {
         return linkedList;
     }
@@ -59,10 +63,11 @@ public class Solution {
         int answer = 0;
 
         Pattern urlPattern = Pattern.compile("<meta property=\"og:url\" content=\"(\\S*)\"/>");
-        Pattern linkPattern = Pattern.compile("<a href=\"(\\S\\s*)\">");
+        Pattern linkPattern = Pattern.compile("<a href=\"(\\S*)\">");
         Pattern wordPattern = Pattern.compile("(?<=[^a-zA-Z])(?i)"+word+"[^a-zA-Z]");
 
-        Map<String,WebPage> webPages = new HashMap<String,WebPage>();
+        Map<Integer,WebPage> webPages = new HashMap<Integer,WebPage>();
+
         int index = 0;
         for(String page:pages) {
 
@@ -90,22 +95,24 @@ public class Solution {
             while(linkMatcher.find()){
                 linkCnt ++;
                 String link = linkMatcher.group();
-                link = link.substring(link.indexOf("https://"),link.indexOf(">"));
+                link = link.substring(link.indexOf("https://"),link.indexOf("\">"));
                 linkedList.add(link);
             }
-            webPages.put(url,new WebPage(url,index++,basicPoint,linkCnt,linkedList));
+            webPages.put(index,new WebPage(url,index++,basicPoint,linkCnt,linkedList));
 
         }
 
         for(WebPage page : webPages.values()) {
             ArrayList<String> linkedList = page.getLinkedList();
-            double linkPoint = (double)page.getBasicPoint()/(double)page.getLinkCnt();
+            double linkPoint = (double)page.getBasicPoint()/page.getLinkCnt();
             for(String linked : linkedList) {
-                if(webPages.containsKey(linked)) {
-                    WebPage linkedPage = webPages.get(linked);
-                    double linkedPoint = linkedPage.getLinkPoint() + linkPoint;
-                    linkedPage.setLinkPoint(linkedPoint);
-                    linkedPage.setMatchingPoint();
+                for(int idx : webPages.keySet()) {
+                    if(webPages.get(idx).getUrl().equals(linked)) {
+                        WebPage linkedPage = webPages.get(idx);
+                        double linkedPoint = linkedPage.getLinkPoint() + linkPoint;
+                        linkedPage.setLinkPoint(linkedPoint);
+                        linkedPage.setMatchingPoint();
+                    }
                 }
             }
         }
