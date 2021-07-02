@@ -4,13 +4,13 @@ import java.util.*;
 
 class FailInfo implements Comparable<FailInfo> {
     private int stage;
-    private float failRate;
+    private double failRate;
 
     public int getStage() {
         return stage;
     }
 
-    public FailInfo(int stage, float failRate) {
+    public FailInfo(int stage, double failRate) {
         this.stage = stage;
         this.failRate = failRate;
     }
@@ -45,7 +45,7 @@ public class Solution {
 
         //실패율 계산. 아무도 스테이지에 도달하지 못했으면 0으로 나누기 -> NaN 나옴 따라서 분모가 0이면 0을 직접 넣어줌
         for(int i=1;i<=N;i++) {
-            float res = reachPlayer[i]==0? (float) 0 :(float)failPlayer[i]/reachPlayer[i];
+            double res = reachPlayer[i]==0? (double) 0 :(double)failPlayer[i]/reachPlayer[i];
             FailInfo newFail = new FailInfo(i,res);
             failInfoList.add(newFail);
         }
