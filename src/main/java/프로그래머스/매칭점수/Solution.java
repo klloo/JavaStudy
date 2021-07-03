@@ -62,15 +62,17 @@ public class Solution {
     public int solution(String word, String[] pages) {
         int answer = 0;
 
+        //정규표현식으로 pattern 만들기
         Pattern urlPattern = Pattern.compile("<meta property=\"og:url\" content=\"(\\S*)\"/>");
         Pattern linkPattern = Pattern.compile("<a href=\"(\\S*)\">");
         Pattern wordPattern = Pattern.compile("(?<=[^a-zA-Z])(?i)"+word+"[^a-zA-Z]");
 
-        Map<Integer,WebPage> webPages = new HashMap<Integer,WebPage>();
+        ArrayList<WebPage> webPages = new ArrayList<WebPage>();
 
         int index = 0;
         for(String page:pages) {
 
+            //페이지 url파싱
             Matcher urlMatcher = urlPattern.matcher(page);
 
             String url = "";
@@ -81,11 +83,14 @@ public class Solution {
 
             Matcher wordMatcher = wordPattern.matcher(page);
 
+            //기본점수 계산
             int basicPoint = 0;
             while(wordMatcher.find()) {
                 basicPoint++;
             }
 
+
+            //링크된 페이지 수와 링크된 페이지들 계산
             Matcher linkMatcher = linkPattern.matcher(page);
 
             ArrayList<String> linkedList = new ArrayList<String>();
@@ -97,17 +102,21 @@ public class Solution {
                 link = link.substring(link.indexOf("https://"),link.indexOf("\">"));
                 linkedList.add(link);
             }
-            webPages.put(index,new WebPage(url,index++,basicPoint,linkCnt,linkedList));
+            webPages.add(new WebPage(url,index++,basicPoint,linkCnt,linkedList));
 
         }
 
-        for(WebPage page : webPages.values()) {
+        //링크점수 계산
+        for(WebPage page : webPages) {
+            //현재 확인하고 있는 페이지의 링크된 페이지 목록
             ArrayList<String> linkedList = page.getLinkedList();
+            //현재 확인하고 있는 페이지의 기본점/링크된 페이지수
+            //이거를 이 페이지에 링크된 페이지들에 더해줘야 됨
             double linkPoint = (double)page.getBasicPoint()/page.getLinkCnt();
             for(String linked : linkedList) {
-                for(int idx : webPages.keySet()) {
-                    if(webPages.get(idx).getUrl().equals(linked)) {
-                        WebPage linkedPage = webPages.get(idx);
+                // 모든 페이지를 확인하면서 링크된 페이지와 같은 페이지에 링크 점수 더해주기
+                for(WebPage linkedPage : webPages) {
+                    if(linkedPage.getUrl().equals(linked)) {
                         double linkedPoint = linkedPage.getLinkPoint() + linkPoint;
                         linkedPage.setLinkPoint(linkedPoint);
                         linkedPage.setMatchingPoint();
@@ -116,13 +125,13 @@ public class Solution {
             }
         }
 
-        double max = 0;
-        for(WebPage page : webPages.values()) {
-            if(max < page.getMatchingPoint()) {
-                answer = page.getIndex();
-                max = page.getMatchingPoint();
-            }
-        }
+        //가장 큰 매칭점수를 가진 페이지의 인덱스 구하기
+        webPages.sort((WebPage a,WebPage b )->{
+            if(a.getMatchingPoint() > b.getMatchingPoint())
+                return -1;
+            return 1;
+        });
+        answer = webPages.get(0).getIndex();
 
 
         return answer;
