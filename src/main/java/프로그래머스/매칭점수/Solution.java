@@ -63,9 +63,10 @@ public class Solution {
         int answer = 0;
 
         //정규표현식으로 pattern 만들기
-        Pattern urlPattern = Pattern.compile("<meta property=\"og:url\" content=\"(\\S*)\"/>");
-        Pattern linkPattern = Pattern.compile("<a href=\"(\\S*)\">");
-        Pattern wordPattern = Pattern.compile("(?<=[^a-zA-Z])(?i)"+word+"[^a-zA-Z]");
+        Pattern urlPattern = Pattern.compile("<meta property=\"og:url\" content=\"[\\S]*\"/>");
+        Pattern linkPattern = Pattern.compile("<a href=\"[\\S]*\">");
+        Pattern wordPattern = Pattern.compile("[^a-zA-Z]?(?i)"+word+"[^a-zA-Z]");
+
 
         ArrayList<WebPage> webPages = new ArrayList<WebPage>();
 
