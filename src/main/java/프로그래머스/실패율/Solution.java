@@ -32,7 +32,7 @@ public class Solution {
         int[] answer = {};
         //인덱스 스테이지에서 실패한 사용자
         int[] failPlayer = new int[N+2];
-        //인덱스 스테이지에서 도달한 사용자
+        //인덱스 스테이지에 도달한 사용자
         int[] reachPlayer = new int[N+2];
 
         for(int stage:stages) {
