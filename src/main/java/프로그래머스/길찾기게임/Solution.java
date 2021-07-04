@@ -25,14 +25,6 @@ class Node implements Comparable<Node>{
         return y;
     }
 
-    public void setRnode(Node rnode) {
-        this.rnode = rnode;
-    }
-
-    public void setLnode(Node lnode) {
-        this.lnode = lnode;
-    }
-
     public void insert(Node newNode) {
         //왼쪽 자식
         if(newNode.getX()<this.x) {
