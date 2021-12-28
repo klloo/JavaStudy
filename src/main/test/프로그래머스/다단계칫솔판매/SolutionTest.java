@@ -1,4 +1,4 @@
-package main.test.프로그래머스.다단계칫솔판매;
+package 프로그래머스.다단계칫솔판매;
 
 import main.java.프로그래머스.다단계칫솔판매.Solution;
 import org.junit.Test;
