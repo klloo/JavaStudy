@@ -2,70 +2,45 @@ package main.java.프로그래머스.다단계칫솔판매;
 
 import java.util.*;
 
-class Node {
-    int idx;
-    String name;
-    ArrayList<Node> childnodes;
-    int profit;
-    public Node(int idx,String name) {
-        this.idx = idx;
-        this.name = name;
-        childnodes = new ArrayList<Node>();
-        profit = 0;
-    }
-    public void insert(String parent,Node child) {
-        if(parent.equals(name))
-            childnodes.add(child);
-        if(childnodes.size()>0) {
-            childnodes.forEach(node -> node.insert(parent, child));
-        }
-    }
-    public int calculateProfit(String seller,int amount) {
-        if((int)(amount*100*0.1)==0)
-            return 0;
-        if(name.equals(seller)) {
-            profit += (int) (amount*100*0.9);
-            return (int) (amount*100*0.1);
-        }
-        int t = 0;
-        for(Node child:childnodes) {
-            t += child.calculateProfit(seller,amount);
-        }
-        int ret = (int)(t*0.1);
-        profit += t-((int)(t*0.1));
-        return ret;
-    }
-    public void result(Map<String,Integer> resMap) {
-        resMap.put(name,profit);
-        if(childnodes.size()>0) {
-            childnodes.forEach(node -> node.result(resMap));
-        }
-    }
-}
 public class Solution {
     public int[] solution(String[] enroll, String[] referral, String[] seller, int[] amount) {
         int[] answer = {};
+        Map<String,String> parentMap = new HashMap<>();
+        Map<String,Integer> totalProfit = new HashMap<>();
 
-        Node root = new Node(-1,"-");
-
+        // 키:자식 값:부모 인 맵과 키:사람 값:그 사람의 이익(초기값 0)인 맵 두개 생성
         int len = enroll.length;
-        for(int i=0;i<len;i++) {
-            Node child = new Node(i,enroll[i]);
-            root.insert(referral[i],child);
+        for(int i=0; i<len; i++) {
+            parentMap.put(enroll[i], referral[i]);
+            totalProfit.put(enroll[i],0);
         }
 
+        // 각 판매자의 이익 계산
         len = seller.length;
-        for(int i=0;i<len;i++)
-            root.calculateProfit(seller[i],amount[i]);
+        for(int i=0; i<len; i++) {
+            // 현재 판매자와 판매자의 이익(판매량 * 100) 계산
+            int profit = amount[i]*100;
+            String sell = seller[i];
+            // 부모에게 이익 전달
+            while(true) {
+                // 만약 더이상 이익이 없거나 루트에 도달 했다면 반복문 종료
+                if(profit == 0 || sell.equals("-"))
+                    break;
+                // 현재 판매자의 이익은 기존 가지고 있던 이익 + 새로 얻게된 이익의 90%
+                int sellerTotalProfit = totalProfit.get(sell) + (profit-(profit/10));
+                totalProfit.put(sell, sellerTotalProfit);
+                // 이익은 10%만 남기고 부모에게 이익 전달 (이익이 저장될 판매자를 부모로 설정)
+                profit /= 10;
+                sell = parentMap.get(sell);
+            }
+        }
 
-        Map<String,Integer> resMap = new HashMap<String,Integer>();
-        root.result(resMap);
-
-        answer = new int[enroll.length];
+        // enroll에 등장하는 순서대로 총 이익 꺼내서 정답 배열에 넣어주기
         len = enroll.length;
-        for(int i=0;i<len;i++)
-            answer[i] = resMap.get(enroll[i]);
-
+        answer = new int[len];
+        for(int i=0; i<len; i++) {
+            answer[i] = totalProfit.get(enroll[i]);
+        }
         return answer;
     }
 }
