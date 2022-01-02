@@ -12,8 +12,9 @@ public class Solution {
             int cnt = 1;
             // 다음 문자열을 unit만큼 잘라서 확인한다.
             for(int k=unit; k<len; k+=unit) {
-                if (k + unit > len) continue;
-                String nextStr = s.substring(k, k + unit);
+                int step = k+unit;
+                if(k+unit > len) step = len;
+                String nextStr = s.substring(k,step);
                 // 만약 기준 문자열과 다음 문자열이 같다면 반복되는 횟수를 증가시켜준다.
                 if (baseStr.equals(nextStr))
                     cnt++;
@@ -26,14 +27,10 @@ public class Solution {
                     cnt = 1;
                 }
             }
-            // 마지막 기준 문자열을 붙여준다.
+            // 남은 문자열 붙여주기
             sb.append(cnt > 1 ? Integer.toString(cnt) : "");
             sb.append(baseStr);
-            // 문자열을 unit 단위로 자르고 남은 문자열을 붙여준다.
-            if(len%unit > 0) {
-                String remainStr = s.substring((len - len % unit), len);
-                sb.append(remainStr);
-            }
+            // 정답 갱신
             int resLen = sb.length();
             answer = answer > resLen ? resLen : answer;
         }

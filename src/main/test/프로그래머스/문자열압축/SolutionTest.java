@@ -8,7 +8,7 @@ public class SolutionTest {
     @Test
     public void solutionTest() {
         Solution solution = new Solution();
-        String s = "aabbaccc";
+        String s = "ababcdcdababcdcd";
         System.out.println(solution.solution(s));
     }
 }
