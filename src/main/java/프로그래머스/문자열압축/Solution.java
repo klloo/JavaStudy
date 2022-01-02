@@ -13,6 +13,7 @@ public class Solution {
             // 다음 문자열을 unit만큼 잘라서 확인한다.
             for(int k=unit; k<len; k+=unit) {
                 int step = k+unit;
+                // 자르고 남은 문자열을 그대로 구해준다
                 if(k+unit > len) step = len;
                 String nextStr = s.substring(k,step);
                 // 만약 기준 문자열과 다음 문자열이 같다면 반복되는 횟수를 증가시켜준다.
