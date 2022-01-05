@@ -1,4 +1,4 @@
-package main.java.프로그래머스.기둥과보;
+package main.java.프로그래머스.기둥과보설치;
 
 public class Solution {
     int[][][] wall;

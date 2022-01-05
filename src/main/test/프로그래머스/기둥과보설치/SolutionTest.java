@@ -1,7 +1,7 @@
-package 프로그래머스.기둥과보;
+package 프로그래머스.기둥과보설치;
 
 
-import main.java.프로그래머스.기둥과보.Solution;
+import main.java.프로그래머스.기둥과보설치.Solution;
 import org.junit.Test;
 
 public class SolutionTest{
