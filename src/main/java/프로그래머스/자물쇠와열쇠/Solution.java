@@ -15,19 +15,23 @@ public class Solution {
     int m;
     int[][] key;
     int[][] lock;
+    // 자물쇠의 홈 부분을 저장하는 배열
     List<Pair> apertureList = new ArrayList<>();
     public boolean solution(int[][] key, int[][] lock) {
         boolean answer = false;
         m = key.length;
         n = lock.length;
+        // 키와 자물쇠를 초기화한다.
         initKey(key);
         this.lock = lock;
+        // 자물쇠의 홈 부분을 저장한다.
         for(int i=0; i<n; i++) {
             for(int j=0;j<n;j++){
                 if(lock[i][j] == 0)
                     apertureList.add(new Pair(i,j));
             }
         }
+        // 시계방향으로 4번 회전하고, 한 회전당 상하좌우 이동할 수 있는 모든 조합을 이동해본다.
         outer:for(int i=0;i<4;i++) {
             int[][] originalKey = cloneKey();
             for(int j=0; j<n; j++) {
@@ -66,11 +70,13 @@ public class Solution {
                     }
                 }
             }
+            // 키를 원상태로 돌려준다. (회전만 한 상태)
             setKey(originalKey);
             rotate();
         }
         return answer;
     }
+    // 키를 dir 방향으로 step 만큼 밀어낸다.
     void slide(char dir, int step, int[][] temp) {
         if(dir == 'D') {
             for(int i=step; i<n; i++)
@@ -105,6 +111,7 @@ public class Solution {
                     key[i][n-1-j] = -1;
         }
     }
+    // 키를 시계 방향으로 회전
     void rotate() {
         int[][] temp = cloneKey();
         for(int i=0; i<m; i++) {
@@ -113,6 +120,7 @@ public class Solution {
             }
         }
     }
+    // 키로 자물쇠를 열 수 있는지 확인
     boolean isRight() {
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
@@ -126,6 +134,7 @@ public class Solution {
         }
         return true;
     }
+    // 현재 키의 상태를 복사해서 반환
     int[][] cloneKey() {
         int[][] temp = new int[n][n];
         for(int i=0; i<n; i++) {
@@ -135,6 +144,7 @@ public class Solution {
         }
         return temp;
     }
+    // 자물쇠와 동일한 크기로 키를 초기화
     void initKey(int[][] key) {
         this.key = new int[n][n];
         for(int i=0;i<n;i++)
@@ -145,6 +155,7 @@ public class Solution {
             }
         }
     }
+    // temp 와 동일한 상태로 키 설정
     void setKey(int[][] temp) {
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
