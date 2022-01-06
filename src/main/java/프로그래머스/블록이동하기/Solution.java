@@ -51,36 +51,33 @@ public class Solution {
                 break;
             }
 
-            // 회전
-            for(int rt=1;rt<4;rt++) {
-                // 머리 기준 회전
-                Pair center = head;
-                int tailDir = calDir(center, tail);
-                for(int i=0;i<=1; i++) {
-                    Pair nxtTail = rotate(center, tailDir, rt,i);
-                    if(nxtTail != null) {
-                        if(!visited[head.r][head.c][calDir(head,nxtTail)] && !visited[nxtTail.r][nxtTail.c][calDir(nxtTail,head)]) {
-                            visited[head.r][head.c][calDir(head,nxtTail)] = true;
-                            visited[nxtTail.r][nxtTail.c][calDir(nxtTail,head)] = true;
-                            queue.add(new Robot(head, nxtTail, dist + rt));
+            // 머리 기준 회전
+            Pair center = head;
+            int tailDir = calDir(center, tail);
+            for(int i=0;i<=1; i++) {
+                Pair nxtTail = rotate(center, tailDir, 1,i);
+                if(nxtTail != null) {
+                    if(!visited[head.r][head.c][calDir(head,nxtTail)] && !visited[nxtTail.r][nxtTail.c][calDir(nxtTail,head)]) {
+                        visited[head.r][head.c][calDir(head,nxtTail)] = true;
+                        visited[nxtTail.r][nxtTail.c][calDir(nxtTail,head)] = true;
+                        queue.add(new Robot(head, nxtTail, dist + 1));
+                    }
+                }
+            }
+            // 꼬리 기준 회전
+            center = tail;
+            int headDir = calDir(center, head);
+            for(int i=0;i<=1; i++) {
+                Pair nxtHead = rotate(center, headDir, 1,i);
+                if (nxtHead != null) {
+                    if (!visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] && !visited[tail.r][tail.c][calDir(tail,nxtHead)]) {
+                        visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] = true;
+                        visited[tail.r][tail.c][calDir(tail,nxtHead)] = true;
+                            queue.add(new Robot(nxtHead, tail,dist + 1));
                         }
                     }
                 }
 
-                // 꼬리 기준 회전
-                center = tail;
-                int headDir = calDir(center, head);
-                for(int i=0;i<=1; i++) {
-                    Pair nxtHead = rotate(center, headDir, rt,i);
-                    if (nxtHead != null) {
-                        if (!visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] && !visited[tail.r][tail.c][calDir(tail,nxtHead)]) {
-                            visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] = true;
-                            visited[tail.r][tail.c][calDir(tail,nxtHead)] = true;
-                            queue.add(new Robot(nxtHead, tail,dist + rt));
-                        }
-                    }
-                }
-            }
             // 이동
             for(int i=0; i<4; i++) {
                 int nxtHr = head.r + dr[i];

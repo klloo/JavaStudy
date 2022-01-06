@@ -8,6 +8,7 @@ public class SolutionTest {
     @Test
     public void solutionTest() {
         Solution solution = new Solution();
+        // 21
         int[][] board = {{0, 0, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 1}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 1, 1, 0}, {0, 1, 1, 1, 1, 1, 0}, {0, 0, 0, 0, 0, 1, 1}, {0, 0, 1, 0, 0, 0, 0}};
         int res = solution.solution(board);
         System.out.println(res);
