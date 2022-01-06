@@ -55,7 +55,7 @@ public class Solution {
             Pair center = head;
             int tailDir = calDir(center, tail);
             for(int i=0;i<=1; i++) {
-                Pair nxtTail = rotate(center, tailDir, 1,i);
+                Pair nxtTail = rotate(center, tailDir,i);
                 if(nxtTail != null) {
                     if(!visited[head.r][head.c][calDir(head,nxtTail)] && !visited[nxtTail.r][nxtTail.c][calDir(nxtTail,head)]) {
                         visited[head.r][head.c][calDir(head,nxtTail)] = true;
@@ -68,7 +68,7 @@ public class Solution {
             center = tail;
             int headDir = calDir(center, head);
             for(int i=0;i<=1; i++) {
-                Pair nxtHead = rotate(center, headDir, 1,i);
+                Pair nxtHead = rotate(center, headDir,i);
                 if (nxtHead != null) {
                     if (!visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] && !visited[tail.r][tail.c][calDir(tail,nxtHead)]) {
                         visited[nxtHead.r][nxtHead.c][calDir(nxtHead,tail)] = true;
@@ -102,17 +102,17 @@ public class Solution {
     boolean isValid(int r,int c) {
         return 0<=r&&r<n&&0<=c&&c<n;
     }
-    // ceter를 기준으로 dir 방향으로 되어있는 로봇을 rt번 회전시킨 결과 위치 반환
+    // ceter를 기준으로 dir 방향으로 되어있는 로봇을 rd방향으로 90도 회전시킨 결과 위치 반환
     // 회전 못시킬 경우 null 리턴
     // dir = 상 우 하 좌
-    Pair rotate(Pair center, int dir, int rt, int rd) {
+    Pair rotate(Pair center, int dir, int rd) {
         int[] dr = {-1,0,1,0};
         int[] dc = {0,1,0,-1};
 
-        int nxtDir = (dir + rt) % 4;
+        int nxtDir = (dir + 1) % 4;
         // 반시계인 경우
         if(rd == 0)
-            nxtDir = (dir - rt + 4) % 4;
+            nxtDir = (dir + 3) % 4;
         int nxtr = center.r+dr[nxtDir];
         int nxtc = center.c+dc[nxtDir];
 
@@ -124,18 +124,16 @@ public class Solution {
         int[] cdr = {-1,-1,1,1};
         int[] cdc = {-1,1,1,-1};
 
-        for(int i=1;i<=rt;i++) {
-            int nxtcdir = (dir+i)%4;
-            // 반시계인 경우
-            if(rd == 0)
-                nxtcdir = (5+dir-i)%4;
-            int cornerR = center.r + cdr[nxtcdir];
-            int cornerC = center.c + cdc[nxtcdir];
-            if(!isValid(cornerR,cornerC))
-                return null;
-            if(board[cornerR][cornerC] == 1)
-                return null;
-        }
+        int nxtcdir = (dir+1)%4;
+        // 반시계인 경우
+        if(rd == 0)
+            nxtcdir = dir;
+        int cornerR = center.r + cdr[nxtcdir];
+        int cornerC = center.c + cdc[nxtcdir];
+        if(!isValid(cornerR,cornerC))
+            return null;
+        if(board[cornerR][cornerC] == 1)
+            return null;
 
         Pair nxtPos = new Pair(nxtr, nxtc);
         return nxtPos;
