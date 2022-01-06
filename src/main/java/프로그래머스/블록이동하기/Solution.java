@@ -24,7 +24,7 @@ public class Solution {
     int n;
     int[][] board;
     public int solution(int[][] board) {
-        int answer = 10000000;
+        int answer = -1;
         // 도착점 좌표
         n = board.length;
         this.board = board;
