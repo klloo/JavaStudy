@@ -128,8 +128,10 @@ public class Solution {
         // 반시계인 경우
         if(rd == 0)
             nxtcdir = dir;
+
         int cornerR = center.r + cdr[nxtcdir];
         int cornerC = center.c + cdc[nxtcdir];
+
         if(!isValid(cornerR,cornerC))
             return null;
         if(board[cornerR][cornerC] == 1)
