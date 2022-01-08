@@ -68,7 +68,7 @@ public class Solution {
             sc.nextLine();
 
             Trie trie = new Trie();
-            List<String> numList=  new ArrayList<>();
+            List<String> numList = new ArrayList<>();
             for(int i=0;i<n;i++) {
                 String str = sc.nextLine();
                 numList.add(str);
